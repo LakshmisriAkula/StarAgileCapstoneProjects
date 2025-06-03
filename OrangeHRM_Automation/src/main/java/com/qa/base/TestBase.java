@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 
 public class TestBase {
 
@@ -21,7 +21,7 @@ public class TestBase {
 		try {
 			prop = new Properties();
 			FileInputStream ip = new FileInputStream(
-					"E:\\StarAgile Capstone Projects\\OrangeHRM_Automation\\src\\main\\java\\com\\qa\\config\\config.properties");
+					"E:\\StarAgile Capstone Projects\\StarAgileCapstoneProjects\\OrangeHRM_Automation\\src\\main\\java\\com\\qa\\config\\config.properties");
 			try {
 				prop.load(ip);
 			} catch (IOException e) {

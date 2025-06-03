@@ -1,6 +1,5 @@
 package com.qa.testCases;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -26,10 +25,10 @@ public class LoginTests extends TestBase {
 	}
 
 	@Test(dataProvider = "LoginData")
-	public void testLogin(String username, String password) {
+	public void loginTestCases(String username, String password) {
 
 		login.login(username, password);
-		
+
 		Assert.assertTrue(LoginPage.profile.isDisplayed());
 		
 		login.logout();

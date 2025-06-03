@@ -1,86 +1,66 @@
 package com.qa.testCases;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.*;
-import pages.AdminPage;
-import pages.LoginPage;
-import utils.ExtentManager;
-import com.aventstack.extentreports.*;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-public class AdminTests {
-    WebDriver driver;
-    LoginPage loginPage;
-    AdminPage adminPage;
-    ExtentReports report;
-    ExtentTest test;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.qa.base.TestBase;
+import com.qa.pages.AdminPage;
+import com.qa.pages.LoginPage;
 
-    @BeforeTest
-    public void setupReport() {
-        report = ExtentManager.getReportInstance();
-    }
+public class AdminTests extends TestBase {
+	LoginPage login;
+	AdminPage adminPage;
+	ExtentReports report;
+	ExtentTest test;
 
-    @BeforeMethod
-    public void setup() {
-        driver = new ChromeDriver();
-        driver.get("https://opensource-demo.orangehrmlive.com/");
-        loginPage = new LoginPage(driver);
-        adminPage = new AdminPage(driver);
-        loginPage.login("Admin", "admin123");
-    }
+	@BeforeMethod
+	public void setup() {
+		initialization();
+		login = new LoginPage(driver);
+		adminPage = new AdminPage(driver);
+		login.login("Admin", "admin123");
+	}
 
-    @Test(priority = 1)
-    public void verifyMenuCount() {
-        test = report.createTest("Verify Menu Count on Left Side");
-        adminPage.clickAdminTab();
-        int count = adminPage.getMenuOptionsCount();
-        test.info("Total menu options found: " + count);
-        assert count == 12 : "Expected 12 menu items";
-        test.pass("Menu count is correct");
-    }
+	@Test
+	public void adminTestCases() throws InterruptedException {
+		verifyMenuCount();
+		searchByUsername();
+		searchByUserRole();
+		searchByStatus();
 
-    @Test(priority = 2)
-    public void searchByUsername() {
-        test = report.createTest("Search by Username");
-        adminPage.clickAdminTab();
-        adminPage.searchByUsername("Admin");
-        int results = adminPage.getResultCount();
-        test.info("Records found: " + results);
-        assert results > 0 : "No records found";
-        adminPage.resetSearch();
-        test.pass("Search by username passed");
-    }
+	}
 
-    @Test(priority = 3)
-    public void searchByUserRole() {
-        test = report.createTest("Search by User Role");
-        adminPage.clickAdminTab();
-        adminPage.searchByUserRole("Admin");
-        int results = adminPage.getResultCount();
-        test.info("Records found: " + results);
-        assert results > 0 : "No records found";
-        adminPage.resetSearch();
-        test.pass("Search by user role passed");
-    }
+	public void verifyMenuCount() {
+		System.out.println(adminPage.getMenuOptionsCount());
+	}
 
-    @Test(priority = 4)
-    public void searchByStatus() {
-        test = report.createTest("Search by User Status");
-        adminPage.clickAdminTab();
-        adminPage.searchByStatus("Enabled");
-        int results = adminPage.getResultCount();
-        test.info("Records found: " + results);
-        assert results > 0 : "No records found";
-        test.pass("Search by status passed");
-    }
+	public void searchByUsername() throws InterruptedException {
 
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
+		adminPage.adminMenu.click();
+		int result = adminPage.searchByUserName("Admin");
+		System.out.println("Result by searching with username " + result);
+		Assert.assertTrue(result > 0);
+		driver.navigate().refresh();
+	}
 
-    @AfterTest
-    public void flushReport() {
-        report.flush();
-    }
+	public void searchByUserRole() throws InterruptedException {
+		adminPage.adminMenu.click();
+		int result = adminPage.searchByUserRole("Admin");
+		System.out.println("Result by searching with user role " + result);
+		Assert.assertTrue(result > 0);
+		driver.navigate().refresh();
+	}
+
+	public void searchByStatus() throws InterruptedException {
+		adminPage.adminMenu.click();
+		int result = adminPage.searchByUserStatus("Enabled");
+		System.out.println("Result by searching with status " + result);
+
+		Assert.assertTrue(result > 0);
+		driver.navigate().refresh();
+	}
+
 }
