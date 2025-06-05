@@ -3,13 +3,13 @@
 <suite name="OrangeHRM Suite">
 
 	<listeners>
-		<listener class-name="com.qa.extentreportlistener.ExtentTestListener" />
+		<listener class-name="com.orangehrm.extentreportlistener.ExtentTestListener" />
 	</listeners>
 
 	<test name="Login and Admin Module Tests">
 		<classes>
-			<class name="com.qa.testCases.LoginTests" />
-			<class name="com.qa.testCases.AdminTests" />
+			<class name="com.orangehrm.testCases.LoginTests" />
+			<class name="com.orangehrm.testCases.AdminTests" />
 		</classes>
 	</test>
 
